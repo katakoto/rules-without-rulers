@@ -16,7 +16,90 @@ import Footer from '../components/Footer.astro';
     </div>
 
     <div class="lyrics-body">
-      <p class="placeholder">歌詞は近日公開予定。<br />Lyrics coming soon.</p>
+
+      <section class="block">
+        <span class="section-label">Intro</span>
+        <p>支配者なしに 俺たちはルールを持てなかった</p>
+        <p>監視なしに 階層なしに 説明責任なしに</p>
+        <p class="ellipsis">……今日までは</p>
+      </section>
+
+      <section class="block">
+        <span class="section-label">Verse 1</span>
+        <p>誰かが上で 判子押すのを待つ世界</p>
+        <p>誰かが下であたまさげ続ける世界</p>
+        <p>秩序の代償は 従順とスタンプ</p>
+        <p>自由の対価は いつも誰かの管理</p>
+        <br />
+        <p>王が消えれば 暴徒が湧く 歴史の教科書</p>
+        <p>だから受け入れた 支配者という保険</p>
+        <p>でも保険屋が 一番の詐欺師だった</p>
+        <p>気づいた時には 骨まで抜かれてた</p>
+      </section>
+
+      <section class="block hook">
+        <span class="section-label">Hook</span>
+        <p>Rules Without Rulers — 支配者のいないルール</p>
+        <p>数学が裁く、コードがソース</p>
+        <p>誰の顔色も、もう要らない</p>
+        <p>Bitcoin、それが 新しい憲法</p>
+      </section>
+
+      <section class="block">
+        <span class="section-label">Verse 2</span>
+        <p>中央銀行 総裁の眉毛ひとつで</p>
+        <p>俺の生活が 傾く理不尽</p>
+        <p>「信用してくれ」って 声だけがデカい</p>
+        <p>信用できないから 信用が要るんだろ</p>
+        <br />
+        <p>でもブロックチェーンは 信用を要求しない</p>
+        <p>検証しろ 自分のノードで 自分の目で</p>
+        <p>Don't trust, verify ——これが新しい礼儀</p>
+        <p>疑うことが 信頼への一番の近道</p>
+      </section>
+
+      <section class="block hook">
+        <span class="section-label">Hook</span>
+        <p>Rules Without Rulers — 支配者のいないルール</p>
+        <p>数学が裁く、コードがソース</p>
+        <p>誰の顔色も、もう要らない</p>
+        <p>Bitcoin、それが 新しい憲法</p>
+      </section>
+
+      <section class="block bridge">
+        <span class="section-label">Bridge</span>
+        <p>勘違いするな これは無法地帯じゃない</p>
+        <p>ルールはある 前よりもずっと厳格に</p>
+        <p>ただし 執行するのは人間じゃない</p>
+        <p>にせんひゃく万枚 ——交渉の余地なし</p>
+        <br />
+        <p>10分ごとに 誰も止められない鐘が鳴る</p>
+        <p>それが秩序だ 王のいない秩序</p>
+      </section>
+
+      <section class="block">
+        <span class="section-label">Verse 3</span>
+        <p>自由ってのは 責任と同じ重さ</p>
+        <p>自分の鍵を 自分で持つってこと</p>
+        <p>誰も助けてくれない それが誇り</p>
+        <p>誰にも止められない それが自由</p>
+        <br />
+        <p>階層は消えた 監視は消えた</p>
+        <p>残ったのは 数学と俺たちと</p>
+        <p>10分ごとに 更新される真実</p>
+        <p>初めて人類は 王なしで回り始めた</p>
+      </section>
+
+      <section class="block hook hook-final">
+        <span class="section-label">Hook</span>
+        <p>Rules Without Rulers — 支配者のいないルール</p>
+        <p>数学が裁く、コードがソース</p>
+        <p>誰の顔色も、もう要らない</p>
+        <p>Bitcoin、それが 新しい憲法</p>
+        <br />
+        <p class="fade">……Rules Without Rulers……</p>
+      </section>
+
     </div>
 
     <Footer />
@@ -53,7 +136,7 @@ import Footer from '../components/Footer.astro';
 
   .title-zone {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
   }
   .kicker {
     font-family: var(--mono);
@@ -83,21 +166,67 @@ import Footer from '../components/Footer.astro';
 
   .lyrics-body {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    max-width: 560px;
+    margin: 0 auto;
+    width: 100%;
   }
-  .placeholder {
+
+  .block {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 0.5px solid #1a1a1a;
+  }
+  .block:last-child {
+    border-bottom: none;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 1rem;
+  }
+
+  .block p {
     font-family: var(--jp);
     font-size: 15px;
     line-height: 2.0;
-    color: var(--dim);
-    text-align: center;
-    letter-spacing: 0.05em;
+    color: var(--fg);
+    letter-spacing: 0.03em;
+  }
+
+  .block br { display: block; content: ''; margin-top: 0.5rem; }
+
+  .ellipsis {
+    color: var(--dim) !important;
+    font-style: italic;
+  }
+
+  .hook .section-label { color: var(--accent); }
+  .hook p {
+    color: var(--fg);
+    font-weight: 500;
+  }
+
+  .bridge p {
+    font-size: 14px !important;
+    color: #b8b4ad !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .hook-final .fade {
+    color: var(--dim) !important;
+    font-style: italic;
+    font-weight: 400 !important;
   }
 
   @media (max-width: 540px) {
     .page { padding: 2rem 1rem 3rem; }
     h1 { font-size: 22px; }
+    .block p { font-size: 14px; }
+    .bridge p { font-size: 13px !important; }
   }
 </style>
