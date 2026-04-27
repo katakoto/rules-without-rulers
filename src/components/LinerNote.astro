@@ -2,19 +2,22 @@
 ---
 
 <div class="liner">
-  <span class="tag">— Liner Note</span>
-  <p>
-    支配者のいないルール。<br />
-    夜は誰のものでもなく、<br />
-    規則は静かに自律して、流れていく。
-  </p>
-  <p class="credit">1st single from the album in production · 2026</p>
+  <span class="tag">— Source Tape / Andreas M. Antonopoulos</span>
+  <blockquote>
+    「今日に至るまで我々は支配者なしにルールを持つことができなかった。機関による監視・ガイダンス・階層・説明責任といったものなしに、我々はルールを持ちえなかったのだ。Bitcoinは世界に"支配者のいないルール"をもたらす。」
+  </blockquote>
+  <a class="source-link" href="https://aantonop.io/ruleswithoutrulers" target="_blank" rel="noopener noreferrer">
+    ↗ Rules Without Rulers — aantonop.io
+  </a>
 </div>
 
 <style>
   .liner {
-    max-width: 460px;
+    max-width: 560px;
     margin: 0 auto 3rem;
+    padding: 1.75rem 0;
+    border-top: 0.5px solid #1f1f1f;
+    border-bottom: 0.5px solid #1f1f1f;
     text-align: center;
   }
   .liner .tag {
@@ -26,23 +29,33 @@
     margin-bottom: 1.25rem;
     display: block;
   }
-  .liner p {
+  .liner blockquote {
     font-family: var(--jp);
-    font-size: 15px;
+    font-size: 14px;
     line-height: 2.0;
     color: var(--fg);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
+    font-style: normal;
+    margin-bottom: 1.25rem;
+    text-align: left;
   }
-  .liner .credit {
-    margin-top: 1rem;
+  .source-link {
+    display: inline-block;
     font-family: var(--mono);
     font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--dim);
+    letter-spacing: 0.25em;
     text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .source-link:hover {
+    border-bottom-color: var(--accent);
   }
 
   @media (max-width: 540px) {
-    .liner p { font-size: 14px; }
+    .liner blockquote { font-size: 13px; }
   }
 </style>
