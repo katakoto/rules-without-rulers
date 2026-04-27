@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="Lyrics — 王不在 / Rules Without Rulers">
+  <main class="page">
+    <div class="meta-strip">
+      <a href="/" class="back">← シングルに戻る</a>
+    </div>
+
+    <div class="title-zone">
+      <p class="kicker">— LYRICS / 歌詞 —</p>
+      <h1>王 不 在</h1>
+      <p class="en">Rules Without Rulers</p>
+    </div>
+
+    <div class="lyrics-body">
+      <p class="placeholder">歌詞は近日公開予定。<br />Lyrics coming soon.</p>
+    </div>
+
+    <Footer />
+  </main>
+</BaseLayout>
+
+<style>
+  .page {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meta-strip {
+    margin-bottom: 3rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 0.5px solid #1f1f1f;
+  }
+  .back {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+
+  .title-zone {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-family: var(--jp);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    color: var(--fg);
+    margin-bottom: 0.6rem;
+    padding-left: 0.5em;
+  }
+  .en {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .lyrics-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .placeholder {
+    font-family: var(--jp);
+    font-size: 15px;
+    line-height: 2.0;
+    color: var(--dim);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 540px) {
+    .page { padding: 2rem 1rem 3rem; }
+    h1 { font-size: 22px; }
+  }
+</style>

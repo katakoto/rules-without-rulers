@@ -1,0 +1,8 @@
+dist/
+node_modules/
+.astro/
+.DS_Store
+*.local
+*~
+*.un~
+.claude/

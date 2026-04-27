@@ -1,0 +1,55 @@
+---
+---
+
+<nav class="nav">
+  <a href="#">↗ Full Album</a>
+  <a href="/lyrics">Lyrics / 歌詞</a>
+  <a href="#" id="shareLink">Share</a>
+</nav>
+
+<style>
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+    border-top: 0.5px solid #1f1f1f;
+    border-bottom: 0.5px solid #1f1f1f;
+    flex-wrap: wrap;
+  }
+  .nav a {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  .nav a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  @media (max-width: 540px) {
+    .nav { gap: 1.5rem; }
+  }
+</style>
+
+<script>
+  const shareLink = document.getElementById('shareLink');
+  if (shareLink && navigator.share) {
+    shareLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await navigator.share({
+        title: 'Rules Without Rulers — 王不在',
+        text: '"Bitcoin brings to the world rules without rulers." — A. Antonopoulos',
+        url: window.location.href,
+      }).catch(() => {});
+    });
+  }
+</script>

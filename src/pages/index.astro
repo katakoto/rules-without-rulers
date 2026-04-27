@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import RecordPlayer from '../components/RecordPlayer.astro';
+import Quote from '../components/Quote.astro';
+import LinerNote from '../components/LinerNote.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout>
+  <main class="page">
+    <Hero />
+    <RecordPlayer />
+    <Quote />
+    <LinerNote />
+    <Nav />
+    <Footer />
+  </main>
+</BaseLayout>
+
+<style>
+  .page {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 540px) {
+    .page { padding: 2rem 1rem 3rem; }
+  }
+</style>
