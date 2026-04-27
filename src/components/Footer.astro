@@ -2,7 +2,7 @@
 ---
 
 <footer class="footer">
-  <span>SELF-HOSTED · KATAKOTO.ORG</span>
+  <a href="https://katakoto.org" class="site-link">KATAKOTO.ORG</a>
   <span class="tip">⚡ TIPS@KATAKOTO.ORG</span>
 </footer>
 
@@ -22,4 +22,10 @@
     gap: 0.75rem;
   }
   .footer .tip { color: var(--accent); }
+  .site-link {
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .site-link:hover { color: var(--fg); }
 </style>
