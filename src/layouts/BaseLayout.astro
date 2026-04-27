@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title?: string;
@@ -26,8 +27,10 @@ const {
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Shippori+Mincho:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <ClientRouter />
   </head>
   <body>
     <slot />
+    <audio id="track" src="/audio/rules-without-rulers.mp3" preload="metadata" transition:persist="audio-player"></audio>
   </body>
 </html>

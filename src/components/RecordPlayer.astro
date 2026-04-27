@@ -45,7 +45,7 @@ import recordImage from '../assets/record_circle.webp';
     </svg>
   </div>
 
-  <button class="play-btn" id="playBtn" aria-label="Play Rules Without Rulers">
+  <button class="play-btn" id="playBtn" aria-label="Play 支配者のいないルール">
     <svg id="glyph" class="glyph" viewBox="0 0 24 24" aria-hidden="true">
       <polygon points="7,5 7,19 19,12"/>
     </svg>
@@ -58,9 +58,6 @@ import recordImage from '../assets/record_circle.webp';
   <span class="total">/ 03:42</span>
   <span class="hint">↑ tap the orange to play</span>
 </div>
-
-<!-- audio element — connect src once the mp3 is ready -->
-<audio id="track" src="/audio/rules-without-rulers.mp3" preload="metadata"></audio>
 
 <style>
   .stage {
@@ -194,12 +191,14 @@ import recordImage from '../assets/record_circle.webp';
 </style>
 
 <script>
-  (function () {
-    const stage = document.getElementById('stage') as HTMLElement;
-    const btn = document.getElementById('playBtn') as HTMLButtonElement;
-    const glyph = document.getElementById('glyph') as SVGElement;
-    const timeEl = document.getElementById('time') as HTMLElement;
-    const audio = document.getElementById('track') as HTMLAudioElement;
+  function initPlayer() {
+    const stage = document.getElementById('stage') as HTMLElement | null;
+    const btn = document.getElementById('playBtn') as HTMLButtonElement | null;
+    const glyph = document.getElementById('glyph') as SVGElement | null;
+    const timeEl = document.getElementById('time') as HTMLElement | null;
+    const audio = document.getElementById('track') as HTMLAudioElement | null;
+
+    if (!stage || !btn || !glyph || !timeEl || !audio) return;
 
     const PLAY = '<polygon points="7,5 7,19 19,12"/>';
     const PAUSE = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
@@ -220,46 +219,32 @@ import recordImage from '../assets/record_circle.webp';
       btn.setAttribute('aria-label', 'Play');
     }
 
-    /* ── real audio path (when src is set) ─────────────────────── */
-    if (audio.src && audio.src !== window.location.href) {
-      audio.addEventListener('timeupdate', () => {
-        timeEl.textContent = fmt(audio.currentTime);
-      });
-      audio.addEventListener('ended', () => {
-        stopSpin();
-        timeEl.textContent = '00:00';
-      });
-
-      btn.addEventListener('click', () => {
-        if (audio.paused) {
-          audio.play();
-          startSpin();
-        } else {
-          audio.pause();
-          stopSpin();
-        }
-      });
-      return;
+    // Sync UI with audio state — important when returning from another page
+    if (!audio.paused) {
+      startSpin();
+      timeEl.textContent = fmt(audio.currentTime);
     }
 
-    /* ── dummy counter path (no audio yet) ──────────────────────── */
-    let playing = false;
-    let sec = 0;
-    let tid: ReturnType<typeof setInterval> | null = null;
+    // Use property assignment to avoid duplicate listeners across navigations
+    audio.ontimeupdate = () => {
+      timeEl.textContent = fmt(audio.currentTime);
+    };
+    audio.onended = () => {
+      stopSpin();
+      timeEl.textContent = '00:00';
+    };
 
     btn.addEventListener('click', () => {
-      playing = !playing;
-      if (playing) {
+      if (audio.paused) {
+        audio.play();
         startSpin();
-        tid = setInterval(() => {
-          sec++;
-          if (sec > 222) sec = 0;
-          timeEl.textContent = fmt(sec);
-        }, 1000);
       } else {
+        audio.pause();
         stopSpin();
-        if (tid) { clearInterval(tid); tid = null; }
       }
     });
-  })();
+  }
+
+  // Run on first load and after every View Transition navigation
+  document.addEventListener('astro:page-load', initPlayer);
 </script>
