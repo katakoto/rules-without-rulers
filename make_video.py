@@ -25,10 +25,10 @@ REV_SPEED      = 1.5          # seconds per revolution (CSS: spin 1.5s)
 DEG_PER_FRAME  = 360 / REV_SPEED / FPS   # 8 deg/frame
 
 # Tonearm angles in PIL convention (CCW positive)
-# CSS rotate(-2deg)  = outer groove start → PIL +2
-# CSS rotate(-20deg) = inner groove end  → PIL +20
-TONEARM_START  =  2.0   # PIL degrees at frame 0   (= CSS -2deg,  outer groove)
-TONEARM_END    = 20.0   # PIL degrees at last frame (= CSS -20deg, inner groove)
+# CSS rotate(+20deg) = outer groove start → PIL -20
+# CSS rotate(-2deg)  = inner groove end  → PIL +2
+TONEARM_START  = -20.0  # PIL degrees at frame 0   (= CSS +20deg, outer groove)
+TONEARM_END    =   2.0  # PIL degrees at last frame (= CSS  -2deg, inner groove)
 
 RECORD_PATH    = "src/assets/record_circle.webp"
 AUDIO_PATH     = "public/audio/rules-without-rulers.mp3"

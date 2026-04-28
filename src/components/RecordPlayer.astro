@@ -113,7 +113,7 @@ import recordImage from '../assets/record_circle.webp';
     z-index: 4;
   }
   .stage.is-spinning .tonearm {
-    transform: rotate(-2deg);   /* initial groove engagement; JS overrides after 1.1s */
+    transform: rotate(20deg);   /* outer groove start; JS overrides after 1.1s */
   }
   .tonearm svg {
     width: 100%;
@@ -195,8 +195,8 @@ import recordImage from '../assets/record_circle.webp';
   // -22deg = resting (off record)
   // -2deg  = outer groove (track start)
   // +20deg = inner groove (track end)
-  const ARM_START = -2;
-  const ARM_END   = -20;
+  const ARM_START = 20;    // outer groove (~86% of record radius)
+  const ARM_END   = -2;    // inner groove (~48% of record radius)
   const ENGAGE_MS = 1100;   // must match CSS transition duration
 
   function initPlayer() {
