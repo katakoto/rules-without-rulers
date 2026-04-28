@@ -113,7 +113,7 @@ import recordImage from '../assets/record_circle.webp';
     z-index: 4;
   }
   .stage.is-spinning .tonearm {
-    transform: rotate(-2deg);
+    transform: rotate(-2deg);   /* initial groove engagement; JS overrides after 1.1s */
   }
   .tonearm svg {
     width: 100%;
@@ -191,60 +191,105 @@ import recordImage from '../assets/record_circle.webp';
 </style>
 
 <script>
+  // Tonearm angle range (CSS degrees)
+  // -22deg = resting (off record)
+  // -2deg  = outer groove (track start)
+  // +20deg = inner groove (track end)
+  const ARM_START = -2;
+  const ARM_END   = 20;
+  const ENGAGE_MS = 1100;   // must match CSS transition duration
+
   function initPlayer() {
-    const stage = document.getElementById('stage') as HTMLElement | null;
-    const btn = document.getElementById('playBtn') as HTMLButtonElement | null;
-    const glyph = document.getElementById('glyph') as SVGElement | null;
-    const timeEl = document.getElementById('time') as HTMLElement | null;
-    const audio = document.getElementById('track') as HTMLAudioElement | null;
+    const stage   = document.getElementById('stage')   as HTMLElement | null;
+    const tonearm = stage?.querySelector('.tonearm')   as HTMLElement | null;
+    const btn     = document.getElementById('playBtn') as HTMLButtonElement | null;
+    const glyph   = document.getElementById('glyph')  as SVGElement | null;
+    const timeEl  = document.getElementById('time')    as HTMLElement | null;
+    const audio   = document.getElementById('track')   as HTMLAudioElement | null;
 
-    if (!stage || !btn || !glyph || !timeEl || !audio) return;
+    if (!stage || !tonearm || !btn || !glyph || !timeEl || !audio) return;
 
-    const PLAY = '<polygon points="7,5 7,19 19,12"/>';
+    const PLAY  = '<polygon points="7,5 7,19 19,12"/>';
     const PAUSE = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+
+    let rafId    = 0;
+    let engageId = 0;
+
+    function armAngle(): number {
+      const dur = audio.duration || 222;
+      return ARM_START + (ARM_END - ARM_START) * Math.min(audio.currentTime / dur, 1);
+    }
+
+    function rafLoop(): void {
+      tonearm.style.transform = `rotate(${armAngle()}deg)`;
+      rafId = requestAnimationFrame(rafLoop);
+    }
+
+    function startJsControl(): void {
+      tonearm.style.transition = 'none';
+      rafLoop();
+    }
 
     function fmt(s: number): string {
       return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(Math.floor(s) % 60).padStart(2, '0');
     }
 
-    function startSpin(): void {
+    function startSpin(skipEngageAnim = false): void {
       stage.classList.add('is-spinning');
       glyph.innerHTML = PAUSE;
       btn.setAttribute('aria-label', 'Pause');
+
+      cancelAnimationFrame(rafId);
+      clearTimeout(engageId);
+
+      if (skipEngageAnim) {
+        // Already mid-track: jump arm to correct angle, no transition
+        tonearm.style.transition = 'none';
+        tonearm.style.transform  = `rotate(${armAngle()}deg)`;
+        rafLoop();
+      } else {
+        // Fresh start: let CSS transition sweep arm from -22deg to -2deg first
+        tonearm.style.transition = '';
+        tonearm.style.transform  = '';
+        engageId = window.setTimeout(startJsControl, ENGAGE_MS);
+      }
     }
 
     function stopSpin(): void {
+      cancelAnimationFrame(rafId);
+      clearTimeout(engageId);
+      // Restore CSS so the arm sweeps back to -22deg with transition
+      tonearm.style.transition = '';
+      tonearm.style.transform  = '';
       stage.classList.remove('is-spinning');
       glyph.innerHTML = PLAY;
       btn.setAttribute('aria-label', 'Play');
     }
 
-    // Sync UI with audio state — important when returning from another page
+    // Sync with audio already playing (e.g. returning from lyrics page)
     if (!audio.paused) {
-      startSpin();
+      startSpin(true);
       timeEl.textContent = fmt(audio.currentTime);
     }
 
-    // Use property assignment to avoid duplicate listeners across navigations
-    audio.ontimeupdate = () => {
-      timeEl.textContent = fmt(audio.currentTime);
-    };
-    audio.onended = () => {
-      stopSpin();
-      timeEl.textContent = '00:00';
-    };
+    audio.ontimeupdate = () => { timeEl.textContent = fmt(audio.currentTime); };
+    audio.onended = () => { stopSpin(); timeEl.textContent = '00:00'; };
 
-    btn.addEventListener('click', () => {
+    btn.onclick = () => {
       if (audio.paused) {
         audio.play();
-        startSpin();
+        startSpin(audio.currentTime > 0);   // skip engage anim if resuming mid-track
       } else {
         audio.pause();
-        stopSpin();
+        // Pause: freeze arm at current position (keep inline style, cancel rAF)
+        cancelAnimationFrame(rafId);
+        clearTimeout(engageId);
+        stage.classList.remove('is-spinning');
+        glyph.innerHTML = PLAY;
+        btn.setAttribute('aria-label', 'Play');
       }
-    });
+    };
   }
 
-  // Run on first load and after every View Transition navigation
   document.addEventListener('astro:page-load', initPlayer);
 </script>
