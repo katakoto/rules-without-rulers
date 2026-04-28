@@ -55,7 +55,7 @@ import recordImage from '../assets/record_circle.webp';
 
 <div class="counter">
   <span class="time" id="time">00:00</span>
-  <span class="total">/ 03:42</span>
+  <span class="total">/ 03:46</span>
   <span class="hint">↑ tap the orange to play</span>
 </div>
 
@@ -216,7 +216,7 @@ import recordImage from '../assets/record_circle.webp';
     let engageId = 0;
 
     function armAngle(): number {
-      const dur = audio.duration || 222;
+      const dur = audio.duration || 226;
       return ARM_START + (ARM_END - ARM_START) * Math.min(audio.currentTime / dur, 1);
     }
 
